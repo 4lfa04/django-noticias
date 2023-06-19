@@ -1,0 +1,66 @@
+{% extends 'html.html' %}
+
+{% block content %}
+
+<form method="POST" class="card mx-4 my-4 m-auto p-4">
+    {% csrf_token %}
+
+    {% if  error != none%}
+    <div class="card text-center bg-danger mb-3">
+        <div class="card-body">
+            <h4 class="card-title">Error</h4>
+            <p class="card-text">{{error}}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="mb-3">
+      <label for="" class="form-label">Titulo</label>
+      <input type="text" oninput="cambiarVistaPrevia()"
+        class="form-control" name="title" id="title" aria-describedby="helpId" placeholder="Titulo de la Noticia">
+      <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
+    </div>
+
+    <div class="mb-3">
+      <label for="" class="form-label">Contenido</label>
+      <textarea class="form-control" oninput="cambiarVistaPrevia()" name="description" id="description" rows="3" placeholder="Contenido de la Noticia"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="" class="form-label">Imagen</label>
+        <input type="text" onchange="cambiarVistaPrevia()"
+          class="form-control" name="image" id="image" aria-describedby="helpId" placeholder="URL de la Imagen a Mostrar">
+        <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
+      </div>
+
+      <button class="btn btn-success">
+        Publicar
+    </button>
+
+</form>
+
+<div id="vistaPrevia" class="card text-start mx-4 my-4 m-auto p-4">
+  <h1>Vista Previa</h1>
+</div>
+
+<script>
+    let titulo = document.getElementById('title');
+    let texto = document.getElementById('description');
+    let imagen = document.getElementById('image');
+    let vistaPrevia = document.getElementById('vistaPrevia');
+
+    function cambiarVistaPrevia() {
+        vistaPrevia.innerHTML = `
+            <h1>Vista Previa</h1>
+            <img class="card-img-top" src="${imagen.value}" style="width:100%; height:240px; object-fit: cover;" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title">Titulo: ${titulo.value}</h4>
+                <p class="card-text">${texto.value}</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        `
+    }
+</script>
+
+{% endblock content %}

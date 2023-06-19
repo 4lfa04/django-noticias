@@ -1,0 +1,35 @@
+{% extends 'html.html' %}
+
+{% block content %}
+
+
+
+<form method="POST" class='card mx-4 my-4 m-auto p-4'>
+    <h1 class="text-center">Iniciar Sesion</h1>
+    {% csrf_token %}
+    
+    {% if  error != none%}
+    <div class="card text-center bg-danger mb-3">
+        <div class="card-body">
+            <h4 class="card-title">Error</h4>
+            <p class="card-text">{{error}}</p>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="mx-2">
+      <label for="" class="form-label">Nombre de Usuario:</label>
+      <input type="text" class="form-control" name="username" maxlength="150" autocomplete="username" autofocus required id="" aria-describedby="helpId" placeholder="Nombre de Usuario">
+    </div>
+    <br>
+    <div class="mx-2">
+        <label for="" class="form-label">Contraseña:</label>
+        <input type="password" class="form-control" name="password" id="id_password" required placeholder="Contraseña">
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary mx-2 mt-4">Enviar</button>
+
+</form>
+
+
+{% endblock content %}

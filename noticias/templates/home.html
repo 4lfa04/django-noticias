@@ -1,0 +1,96 @@
+{% extends 'html.html' %}
+
+{% block content %}
+<main class="text-center p-4">
+<h1 class="mb-4" id="inicio"><i class="fa-solid fa-newspaper" style="color: #0e1520;"></i> Noticias Actuales</h1>
+<div class="zona-noticias">
+    
+</div>
+<div>
+</div>
+
+<div class="direccion" style="display: none;">{{ direccion }}</div>
+
+<script>
+    let zona = document.querySelector('.zona-noticias')
+
+async function data() {
+    let data = await fetch(`http://{{ direccion }}:8000/getNotices/`).then(res=>res.json());
+    zona.innerHTML = `
+        {% if not user.is_authenticated %}
+        <div class="card mb-3 my-4 m-auto" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="http://{{ direccion }}/DJANGO/test-noticias/img/new_user.jpg" style="width: 180px; height: 220px; object-fit: cover; object-position: center;" class="img-fluid rounded-start" alt="Card title">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                    <h5 class="card-title">Vaya, parece que no estas autenticado.</h5>
+                    <p class="card-text">Por favor, inicia sesion en nuestros servicios para poder ofrecerte una experiencia personalizada.</p>
+                    <div class="flex">
+                        <a href="/login" class="btn btn-outline-primary" >Iniciar Sesion</a>
+                        <a href="/signup" class="btn btn-outline-success" >Crear Cuenta</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        `
+    let noticias = data.noticias;
+    noticias = noticias.reverse()
+    if ( noticias ) {
+        for (const noticia of noticias) {
+            // console.log(noticia.title)
+            let tiempo = noticia.created;
+            let text = '';
+            for (const key in tiempo) {
+                if (key >= 10) {
+                    break
+                }
+                text += tiempo[key]
+            }
+            zona.innerHTML += `
+            <a href="noticia/${noticia.id}/" style="text-decoration: none;">
+            <div class="card text-start">
+                <img class="card-img-top" src="${noticia.image}" style="width:100%; height:240px; object-fit: cover;" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title">${noticia.title}</h4>
+                    <p class="card-text">Escrita por: ${noticia.user}</p>
+                    <small class=" text-muted">${text}</small>
+                </div>
+            </div>
+            </a>
+            <br>
+            `
+        }
+
+        zona.innerHTML += `
+        <a href="#inicio" class="btn btn-primary" role="alert" onclick="data()">
+        <strong>¿No hay más?</strong> Pulsa para recargar <i class="fa-solid fa-rotate-right fa-spin" style="color: #fff;"></i>
+        </a>
+        `
+
+    } else {
+        zona.innerHTML = `
+            <div class="card mb-3 my-4 m-auto" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="http://${numero}/DJANGO/test-noticias/img/no-notice.jpg" class="img-fluid rounded-start" alt="Card title">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                        <h5 class="card-title">No se han Encontrado Noticias</h5>
+                        <p class="card-text">Hemos recorrido todo el ciberespacio, pero no hemos encontrado nada.</p>
+                        <button class="btn btn-outline-primary" onclick="data()">Actualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
+    }
+}
+data()
+</script>
+
+</main>
+{% endblock content %}

@@ -1,0 +1,84 @@
+{% extends 'html.html' %}
+
+{% block content %}
+
+
+
+<main class="card my-4 mx-4">
+    <img class="card-img-top" src="{{ noticia.image }}" alt="Title" style="width: 100%; height: 500px; object-fit: cover;">
+    <div class="p-4">
+
+        <div class="d-flex justify-content-between">
+            <h1 class="card-title">{{ noticia.title }}</h1>
+            
+            <div class="m-1">
+                <small class="text-muted">Publicado el: {{ noticia.created }}</small>
+                <div class="like-dislike d-flex my-4" style="background-color: gray; width: max-content; border-radius: 50px;">
+                    <div class="d-flex like">
+                        <button class="like-item"><h4><i class="fa-solid fa-thumbs-up"></i></h4></button>
+                        <small class="text-muted">14</small>
+                    </div>
+                    <button class="dislike"><h4><i class="fa-solid fa-thumbs-down"></i></h4></button>
+        
+                    <style>
+                        .like-dislike > div {
+                            align-items: center;
+                        }
+        
+                        .like {
+                            border-radius: 50px;
+                            border: none;
+                            background-color: gray;
+                            transition: all .3s;
+                            display: flex;
+                            padding-right: 15px;
+                        }
+        
+                        .like-item, .dislike {
+                            border: none;
+                            border-radius: 50px;
+                            width: 40px;
+                            height: 40px;
+                            background-color: gray;
+                            transition: all .3s;
+                            color: aliceblue;
+                        }
+                        .like:hover{
+                            background-color: rgb(88, 88, 88);
+                            color: rgba(25, 135, 84, 1)
+                        }
+        
+                        .like:hover .like-item{
+                            background-color: rgb(88, 88, 88);
+                            color: rgba(25, 135, 84, 1)
+                        }
+        
+                        .dislike:hover {
+                            background-color: rgb(88, 88, 88);
+                            color: rgba(220, 53, 69, 1);
+                        }
+                    </style>
+                </div>
+            </div>
+
+        </div>
+        
+        <p class="card-text">{{ noticia.description|linebreaks  }} </p>
+
+
+        {% if noticia.user == user %}
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name='accion' style="display: none;" value="delete">
+                <button class="btn btn-danger">Eliminar</button>
+            </form>
+        {% endif %}
+        
+    </div>
+
+</main>
+
+
+
+
+{% endblock content %}
