@@ -9,19 +9,18 @@
 <div>
 </div>
 
-<div class="direccion" style="display: none;">{{ direccion }}</div>
 
 <script>
     let zona = document.querySelector('.zona-noticias')
 
 async function data() {
-    let data = await fetch(`http://{{ direccion }}:8000/getNotices/`).then(res=>res.json());
+    let data = await fetch(`{{ direccion_web }}/getNotices/`).then(res=>res.json());
     zona.innerHTML = `
         {% if not user.is_authenticated %}
         <div class="card mb-3 my-4 m-auto" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="http://{{ direccion }}/DJANGO/test-noticias/img/new_user.jpg" style="width: 180px; height: 220px; object-fit: cover; object-position: center;" class="img-fluid rounded-start" alt="Card title">
+                    <img src="{{ direccion_static }}/img/new_user.jpg" style="width: 180px; height: 220px; object-fit: cover; object-position: center;" class="img-fluid rounded-start" alt="Card title">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -75,7 +74,7 @@ async function data() {
             <div class="card mb-3 my-4 m-auto" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="http://${numero}/DJANGO/test-noticias/img/no-notice.jpg" class="img-fluid rounded-start" alt="Card title">
+                        <img src="{{ direccion_static }}/img/no-notice.jpg" class="img-fluid rounded-start" alt="Card title">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

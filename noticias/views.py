@@ -9,12 +9,14 @@ from .models import Noticia
 
 # Create your views here.
 
-URL = 'localhost'
+URL = 'https://ipvce-cuba.onrender.com'
+URL_STATIC = "https://github.com/4lfa04/django-noticias/tree/master/public"
 
 # Rutas
 def home(req):
     return render(req, 'home.html', {
-        'direccion': URL
+        'direccion_web': URL,
+        'direccion_static':  URL_STATIC
     })
 
 
@@ -23,7 +25,8 @@ def signup(req):
     if req.method == 'GET':
         return render(req, 'signup.html', {
             'form': UserCreationForm,
-            'direccion': URL
+            'direccion_web': URL,
+            'direccion_static':  URL_STATIC
         })
     else:
         if req.POST['password1'] == req.POST['password2']:
@@ -41,13 +44,15 @@ def signup(req):
             return render(req, 'signup.html', {
                 'form': UserCreationForm,
                 'error': 'Las contraseñas no coinciden.',
-                'direccion': URL
+                'direccion_web': URL,
+                'direccion_static':  URL_STATIC
             })
               
 def signin(req):
     if req.method == "GET":
         return render(req, 'signin.html',{
-            'direccion': URL
+            'direccion_web': URL,
+            'direccion_static':  URL_STATIC
         })
     else:
         user = authenticate(req, username=req.POST['username'], password=req.POST['password'])
@@ -55,7 +60,8 @@ def signin(req):
         if user is None:
             return render(req, 'signin.html', {
             'error': 'Nombre de usuario o contraseña incorrectos',
-            'direccion': URL
+            'direccion_web': URL,
+            'direccion_static':  URL_STATIC
         })
         else:
             login(req, user)
@@ -68,7 +74,8 @@ def signout(req):
 def user_dash(req):
     
     return render(req, 'user_dash.html', {
-        'direccion': URL
+        'direccion_web': URL,
+        'direccion_static':  URL_STATIC
     })      
     
 def noticias(req):
@@ -97,7 +104,8 @@ def noticias(req):
 def crear_noticia(req):
     if req.method == 'GET':
         return render(req, 'crear_noticia.html', {
-            'direccion': URL,
+            'direccion_web': URL,
+            'direccion_static':  URL_STATIC,
             'form': NoticeForm
         })
     else:
@@ -109,7 +117,8 @@ def crear_noticia(req):
             return redirect('/')
         except:
             return render(req, 'crear_noticia.html', {
-            'direccion': URL,
+            'direccion_web': URL,
+            'direccion_static':  URL_STATIC,
             'form': NoticeForm,
             'error': 'Por favor, escriba informacion valida'
         })
@@ -117,7 +126,8 @@ def crear_noticia(req):
 def mis_noticias_view(req):
     mi_lista_de_noticias = Noticia.objects.filter(user=req.user)
     return render(req, 'mis_noticias.html', {
-        'direccion': URL,
+        'direccion_web': URL,
+        'direccion_static':  URL_STATIC,
         'mis_noticias': mi_lista_de_noticias
     })
     
