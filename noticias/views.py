@@ -9,13 +9,13 @@ from .models import Noticia
 
 # Create your views here.
 
-URL = 'https://ipvce-cuba.onrender.com'
+URL_SITE = 'https://ipvce-cuba.onrender.com'
 URL_STATIC = "https://github.com/4lfa04/django-noticias/tree/master/public"
 
 # Rutas
 def home(req):
     return render(req, 'home.html', {
-        'direccion_web': URL,
+        'direccion_web': URL_SITE,
         'direccion_static':  URL_STATIC
     })
 
@@ -25,7 +25,7 @@ def signup(req):
     if req.method == 'GET':
         return render(req, 'signup.html', {
             'form': UserCreationForm,
-            'direccion_web': URL,
+            'direccion_web': URL_SITE,
             'direccion_static':  URL_STATIC
         })
     else:
@@ -44,14 +44,14 @@ def signup(req):
             return render(req, 'signup.html', {
                 'form': UserCreationForm,
                 'error': 'Las contraseñas no coinciden.',
-                'direccion_web': URL,
+                'direccion_web': URL_SITE,
                 'direccion_static':  URL_STATIC
             })
               
 def signin(req):
     if req.method == "GET":
         return render(req, 'signin.html',{
-            'direccion_web': URL,
+            'direccion_web': URL_SITE,
             'direccion_static':  URL_STATIC
         })
     else:
@@ -60,7 +60,7 @@ def signin(req):
         if user is None:
             return render(req, 'signin.html', {
             'error': 'Nombre de usuario o contraseña incorrectos',
-            'direccion_web': URL,
+            'direccion_web': URL_SITE,
             'direccion_static':  URL_STATIC
         })
         else:
@@ -74,7 +74,7 @@ def signout(req):
 def user_dash(req):
     
     return render(req, 'user_dash.html', {
-        'direccion_web': URL,
+        'direccion_web': URL_SITE,
         'direccion_static':  URL_STATIC
     })      
     
@@ -104,7 +104,7 @@ def noticias(req):
 def crear_noticia(req):
     if req.method == 'GET':
         return render(req, 'crear_noticia.html', {
-            'direccion_web': URL,
+            'direccion_web': URL_SITE,
             'direccion_static':  URL_STATIC,
             'form': NoticeForm
         })
@@ -117,7 +117,7 @@ def crear_noticia(req):
             return redirect('/')
         except:
             return render(req, 'crear_noticia.html', {
-            'direccion_web': URL,
+            'direccion_web': URL_SITE,
             'direccion_static':  URL_STATIC,
             'form': NoticeForm,
             'error': 'Por favor, escriba informacion valida'
@@ -126,7 +126,7 @@ def crear_noticia(req):
 def mis_noticias_view(req):
     mi_lista_de_noticias = Noticia.objects.filter(user=req.user)
     return render(req, 'mis_noticias.html', {
-        'direccion_web': URL,
+        'direccion_web': URL_SITE,
         'direccion_static':  URL_STATIC,
         'mis_noticias': mi_lista_de_noticias
     })
@@ -135,7 +135,7 @@ def user_noticia(req, noticia_id):
     if req.method == 'GET':
         noticia = get_object_or_404(Noticia, pk=noticia_id)
         return render(req, 'noticia.html', {
-            'direccion' : URL,
+            'direccion' : URL_SITE,
             'noticia': noticia
         })
     else:
